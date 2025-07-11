@@ -9,6 +9,7 @@ import { Mail, Phone, MapPin, Calendar, Award, Users, BookOpen, GraduationCap, C
 import { DataManager } from "@/lib/data-manager" // Import DataManager
 import { useEffect, useState } from "react"
 
+// Ensure this Teacher interface is consistent with lib/data-manager.ts
 interface Teacher {
   id: string
   name: string
@@ -26,7 +27,7 @@ interface Teacher {
   bio?: string
   qualifications?: string[]
   specializations?: string[]
-  hourlyRate?: number
+  hourlyRate: number // Changed from optional to required
 }
 
 interface ScheduleSlot {
@@ -145,7 +146,7 @@ export function ViewTeacherModal({ teacher, isOpen, onClose, allTeachers }: View
               {/* New: Hourly Rate, Daily Engaged Hours, Daily Earnings */}
               <div className="flex items-center space-x-2 text-slate-600">
                 <DollarSign className="w-4 h-4" />
-                <span>{teacher.hourlyRate !== undefined ? `$${teacher.hourlyRate.toFixed(2)}/hour` : "N/A"}</span>
+                <span>₹{teacher.hourlyRate.toFixed(2)}/hour</span>
               </div>
               <div className="flex items-center space-x-2 text-slate-600">
                 <Clock className="w-4 h-4" />
@@ -153,7 +154,7 @@ export function ViewTeacherModal({ teacher, isOpen, onClose, allTeachers }: View
               </div>
               <div className="flex items-center space-x-2 text-slate-600">
                 <DollarSign className="w-4 h-4" />
-                <span>${dailyEarnings.toFixed(2)} Daily Earnings</span>
+                <span>₹{dailyEarnings.toFixed(2)} Daily Earnings</span>
               </div>
             </div>
           </div>

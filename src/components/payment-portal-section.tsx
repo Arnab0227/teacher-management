@@ -305,7 +305,7 @@ export function PaymentPortalSection({ teachers }: PaymentPortalSectionProps) {
             <span>Daily Teacher Busy Hours & Payouts</span>
           </CardTitle>
           <CardDescription>
-            Daily busy hours and calculated payouts per teacher (only counting "busy" slots).
+            Daily busy hours and calculated payouts per teacher (only counting &quot;busy&quot; slots).
           </CardDescription>
         </CardHeader>
         <CardContent>

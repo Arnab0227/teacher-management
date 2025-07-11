@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Users, GraduationCap, Award, Clock, DollarSign, CalendarDays } from "lucide-react"
+import { Users, GraduationCap, Award, Clock, IndianRupee, CalendarDays } from "lucide-react"
 import { DataManager } from "@/lib/data-manager"
 import { useEffect, useState } from "react"
 
@@ -174,10 +174,10 @@ export function OverviewSection({ teachers }: OverviewSectionProps) {
         <Card className="bg-white shadow-sm border-0 shadow-slate-200/50 hover:shadow-lg transition-all duration-200 hover:-translate-y-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-slate-600">Daily Payouts</CardTitle>
-            <DollarSign className="h-4 w-4 text-green-600" />
+            <IndianRupee className="h-4 w-4 text-green-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-slate-900">${totalDailyPayouts.toFixed(2)}</div>
+            <div className="text-2xl font-bold text-slate-900">₹{totalDailyPayouts.toFixed(2)}</div>
             <p className="text-xs text-slate-500 mt-1">Total daily teacher compensation</p>
           </CardContent>
         </Card>
@@ -211,7 +211,10 @@ export function OverviewSection({ teachers }: OverviewSectionProps) {
           <div className="space-y-4">
             {recentlyAdded.length > 0 ? (
               recentlyAdded.map((teacher) => (
-                <div key={teacher.id} className="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg">
+                <div
+                  key={teacher.id}
+                  className="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg hover:shadow-md transition-all duration-200 hover:-translate-y-0.5"
+                >
                   <Avatar className="w-10 h-10">
                     <AvatarImage src={teacher.avatar || "/placeholder.svg"} alt={teacher.name} />
                     <AvatarFallback className="bg-blue-100 text-blue-600 font-semibold">
@@ -247,7 +250,10 @@ export function OverviewSection({ teachers }: OverviewSectionProps) {
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {Object.entries(departmentStats).map(([department, count]) => (
-              <div key={department} className="text-center p-4 bg-slate-50 rounded-lg">
+              <div
+                key={department}
+                className="text-center p-4 bg-slate-50 rounded-lg hover:shadow-md transition-all duration-200 hover:-translate-y-0.5"
+              >
                 <div className="text-2xl font-bold text-slate-900">{count}</div>
                 <div className="text-sm text-slate-600">{department}</div>
               </div>
@@ -265,7 +271,10 @@ export function OverviewSection({ teachers }: OverviewSectionProps) {
           <div className="space-y-4">
             {topPerformers.length > 0 ? (
               topPerformers.map((teacher, index) => (
-                <div key={teacher.id} className="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg">
+                <div
+                  key={teacher.id}
+                  className="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg hover:shadow-md transition-all duration-200 hover:-translate-y-0.5"
+                >
                   <div className="flex items-center justify-center w-8 h-8 bg-blue-100 text-blue-600 rounded-full font-semibold">
                     {index + 1}
                   </div>

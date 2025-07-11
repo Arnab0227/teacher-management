@@ -1,100 +1,102 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Clock, MessageSquare } from 'lucide-react'
-import { DataManager } from "@/lib/data-manager"
+import { Clock, User, ChevronLeft, ChevronRight, Edit3, Calendar } from "lucide-react"
+import { DataManager, type ScheduleData, type ScheduleSlot, type ScheduleColumn } from "@/lib/data-manager" // Import types from DataManager
 
-interface ScheduleSlot {
-  status: string
-  lesson: string | null
-  comments: string
-}
-
-interface TeacherSchedule {
+interface Teacher {
   id: string
   name: string
-  schedule: Record<string, ScheduleSlot>
+  email: string
+  phone: string
+  subject: string
+  department: string
+  experience: number
+  status: "active" | "inactive" | "on-leave"
+  avatar?: string
+  joinDate: string
+  location: string
+  rating: number
+  studentsCount: number
+  bio?: string
+  qualifications?: string[]
+  specializations?: string[]
+  hourlyRate: number
 }
 
-interface ScheduleData {
-  timeSlots: string[]
-  teachers: TeacherSchedule[]
+interface ScheduleChartProps {
+  teachers: Teacher[]
 }
 
-export function ScheduleTable() {
+export function ScheduleChart({ teachers }: ScheduleChartProps) {
   const [scheduleData, setScheduleData] = useState<ScheduleData | null>(null)
+  const [selectedTeacherId, setSelectedTeacherId] = useState<string>("")
   const [selectedSlot, setSelectedSlot] = useState<{
-    teacherId: string
     timeSlot: string
-    data: ScheduleSlot
+    column: keyof ScheduleSlot
+    data: string
   } | null>(null)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
   useEffect(() => {
-    const data = DataManager.getScheduleData()
-    setScheduleData(data)
-  }, [])
+    const loadSchedule = () => {
+      try {
+        // Pass teachers to getScheduleData
+        const data = DataManager.getScheduleData(teachers)
+        setScheduleData(data)
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "available":
-        return "bg-green-100 text-green-800 border-green-200"
-      case "scheduled":
-        return "bg-blue-100 text-blue-800 border-blue-200"
-      case "unavailable":
-        return "bg-red-100 text-red-800 border-red-200"
-      case "break":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200"
-      case "lunch":
-        return "bg-orange-100 text-orange-800 border-orange-200"
-      case "office-hours":
-        return "bg-purple-100 text-purple-800 border-purple-200"
-      case "meeting":
-        return "bg-indigo-100 text-indigo-800 border-indigo-200"
-      case "research":
-        return "bg-teal-100 text-teal-800 border-teal-200"
-      case "on-leave":
-        return "bg-gray-100 text-gray-800 border-gray-200"
-      default:
-        return "bg-slate-100 text-slate-800 border-slate-200"
+        if (teachers.length > 0) {
+          if (!selectedTeacherId || !teachers.some((t) => t.id === selectedTeacherId)) {
+            setSelectedTeacherId(teachers[0].id)
+          }
+        } else {
+          setSelectedTeacherId("")
+        }
+      } catch (error) {
+        console.error("Error loading schedule data:", error)
+      }
     }
-  }
 
-  const getStatusLabel = (status: string) => {
-    return status.replace("-", " ").toUpperCase()
-  }
+    loadSchedule()
+  }, [teachers, selectedTeacherId])
 
-  const handleSlotClick = (teacherId: string, timeSlot: string, slotData: ScheduleSlot) => {
-    setSelectedSlot({ teacherId, timeSlot, data: slotData })
+  const currentTeacher = teachers.find((t) => t.id === selectedTeacherId)
+  const currentSchedule = scheduleData?.teacherSchedules?.[selectedTeacherId]
+
+  const handleSlotClick = (timeSlot: string, column: keyof ScheduleSlot, data: string) => {
+    setSelectedSlot({ timeSlot, column, data })
     setIsEditModalOpen(true)
   }
 
-  const handleSlotUpdate = (newData: ScheduleSlot) => {
-    if (!selectedSlot || !scheduleData) return
+  const handleSlotUpdate = (newData: string) => {
+    if (!selectedSlot || !scheduleData || !currentSchedule) return
 
-    const updatedScheduleData = {
+    const updatedSchedule = {
+      ...currentSchedule,
+      schedule: {
+        ...currentSchedule.schedule,
+        [selectedSlot.timeSlot]: {
+          ...currentSchedule.schedule[selectedSlot.timeSlot],
+          [selectedSlot.column]: newData,
+        },
+      },
+    }
+
+    // Correctly update teacherSchedules, which is a Record<string, TeacherSchedule>
+    const updatedScheduleData: ScheduleData = {
       ...scheduleData,
-      teachers: scheduleData.teachers.map((teacher) =>
-        teacher.id === selectedSlot.teacherId
-          ? {
-              ...teacher,
-              schedule: {
-                ...teacher.schedule,
-                [selectedSlot.timeSlot]: newData,
-              },
-            }
-          : teacher,
-      ),
+      teacherSchedules: {
+        ...scheduleData.teacherSchedules,
+        [selectedTeacherId]: updatedSchedule,
+      },
     }
 
     setScheduleData(updatedScheduleData)
@@ -103,12 +105,52 @@ export function ScheduleTable() {
     setSelectedSlot(null)
   }
 
-  if (!scheduleData) {
+  const getNextTeacher = () => {
+    const currentIndex = teachers.findIndex((t) => t.id === selectedTeacherId)
+    const nextIndex = (currentIndex + 1) % teachers.length
+    setSelectedTeacherId(teachers[nextIndex].id)
+  }
+
+  const getPrevTeacher = () => {
+    const currentIndex = teachers.findIndex((t) => t.id === selectedTeacherId)
+    const prevIndex = currentIndex === 0 ? teachers.length - 1 : currentIndex - 1
+    setSelectedTeacherId(teachers[prevIndex].id)
+  }
+
+  const getCellContent = (timeSlot: string, column: ScheduleColumn) => {
+    const slotData = currentSchedule?.schedule?.[timeSlot]
+    if (!slotData) return ""
+    return slotData[column.key] || ""
+  }
+
+  const getCellColor = (content: string, column: ScheduleColumn) => {
+    if (!content.trim()) return "bg-white"
+
+    if (column.key === "availability") {
+      if (content === "available") return "bg-green-100 text-green-800"
+      if (content === "busy") return "bg-red-100 text-red-800"
+      if (content === "not available") return "bg-gray-100 text-gray-800"
+    }
+    if (column.key === "scheduled_lessons" && content) return "bg-blue-100 text-blue-800"
+    if (column.key === "meetings" && content) return "bg-purple-100 text-purple-800"
+    if (column.key === "break_time" && content) return "bg-orange-100 text-orange-800"
+    if (column.key === "office_hours" && content) return "bg-teal-100 text-teal-800"
+
+    return column.color
+  }
+
+  if (
+    !scheduleData ||
+    !Array.isArray(scheduleData.columns) ||
+    !Array.isArray(scheduleData.timeSlots) ||
+    !currentSchedule ||
+    teachers.length === 0
+  ) {
     return (
       <Card>
         <CardContent className="p-8 text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-slate-600">Loading schedule...</p>
+          <p className="mt-4 text-slate-600">Loading schedule chart...</p>
         </CardContent>
       </Card>
     )
@@ -117,98 +159,191 @@ export function ScheduleTable() {
   return (
     <Card className="bg-white shadow-sm border-0 shadow-slate-200/50">
       <CardHeader>
-        <CardTitle className="flex items-center space-x-2">
-          <Clock className="w-5 h-5" />
-          <span>Teacher Schedule & Availability</span>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
-            <thead>
-              <tr>
-                <th className="sticky left-0 bg-white border border-slate-200 p-3 text-left font-semibold text-slate-700 min-w-[120px]">
-                  Time
-                </th>
-                {scheduleData.teachers.map((teacher) => (
-                  <th
-                    key={teacher.id}
-                    className="border border-slate-200 p-3 text-left font-semibold text-slate-700 min-w-[200px]"
-                  >
-                    {teacher.name}
-                  </th>
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <CardTitle className="flex items-center space-x-2">
+            <Calendar className="w-5 h-5" />
+            <span>Teacher Schedule Chart</span>
+          </CardTitle>
+
+          <div className="flex flex-wrap items-center gap-4 md:flex-nowrap">
+            <div className="flex items-center space-x-4">
+              <Button variant="outline" size="sm" onClick={getPrevTeacher} disabled={teachers.length <= 1}>
+                <ChevronLeft className="w-4 h-4" />
+              </Button>
+
+              <div className="flex items-center space-x-2 px-4 py-2 bg-blue-50 rounded-lg">
+                <User className="w-4 h-4 text-blue-600" />
+                <span className="font-medium text-blue-900">{currentTeacher?.name || "Unknown Teacher"}</span>
+                <Badge variant="secondary" className="text-xs">
+                  {currentTeacher?.subject}
+                </Badge>
+              </div>
+
+              <Button variant="outline" size="sm" onClick={getNextTeacher} disabled={teachers.length <= 1}>
+                <ChevronRight className="w-4 h-4" />
+              </Button>
+            </div>
+            <Select value={selectedTeacherId} onValueChange={setSelectedTeacherId}>
+              <SelectTrigger className="w-48">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {teachers.map((teacher) => (
+                  <SelectItem key={teacher.id} value={teacher.id}>
+                    {teacher.name} - {teacher.subject}
+                  </SelectItem>
                 ))}
-              </tr>
-            </thead>
-            <tbody>
-              {scheduleData.timeSlots.map((timeSlot) => (
-                <tr key={timeSlot} className="hover:bg-slate-50">
-                  <td className="sticky left-0 bg-white border border-slate-200 p-3 font-medium text-slate-600">
-                    {timeSlot}
-                  </td>
-                  {scheduleData.teachers.map((teacher) => {
-                    const slotData = teacher.schedule[timeSlot]
-                    return (
-                      <td key={`${teacher.id}-${timeSlot}`} className="border border-slate-200 p-2">
-                        <div
-                          className="cursor-pointer hover:opacity-80 transition-opacity"
-                          onClick={() => handleSlotClick(teacher.id, timeSlot, slotData)}
-                        >
-                          <Badge className={`text-xs mb-1 ${getStatusColor(slotData.status)}`}>
-                            {getStatusLabel(slotData.status)}
-                          </Badge>
-                          {slotData.lesson && (
-                            <p className="text-xs font-medium text-slate-700 mb-1">{slotData.lesson}</p>
-                          )}
-                          {slotData.comments && (
-                            <p className="text-xs text-slate-500 flex items-center">
-                              <MessageSquare className="w-3 h-3 mr-1" />
-                              {slotData.comments}
-                            </p>
-                          )}
-                        </div>
-                      </td>
-                    )
-                  })}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </CardHeader>
+
+      <CardContent>
+        {/* Desktop View */}
+        <div className="hidden lg:block">
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse border border-slate-200">
+              <thead>
+                <tr>
+                  <th className="sticky left-0 bg-slate-100 border border-slate-200 p-3 text-left font-semibold text-slate-700 min-w-[100px]">
+                    <div className="flex items-center space-x-2">
+                      <Clock className="w-4 h-4" />
+                      <span>Time</span>
+                    </div>
+                  </th>
+                  {scheduleData.columns.map((column) => (
+                    <th
+                      key={column.key}
+                      className="border border-slate-200 p-3 text-left font-semibold text-slate-700 min-w-[150px]"
+                    >
+                      {column.label}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {scheduleData.timeSlots.map((timeSlot) => (
+                  <tr key={timeSlot} className="hover:bg-slate-50">
+                    <td className="sticky left-0 bg-white border border-slate-200 p-3 font-medium text-slate-600">
+                      {timeSlot}
+                    </td>
+                    {scheduleData.columns.map((column) => {
+                      const content = getCellContent(timeSlot, column)
+                      return (
+                        <td key={`${timeSlot}-${column.key}`} className="border border-slate-200 p-2">
+                          <div
+                            className={`cursor-pointer hover:opacity-80 transition-opacity p-2 rounded min-h-[40px] ${getCellColor(content, column)}`}
+                            onClick={() => handleSlotClick(timeSlot, column.key, content)}
+                          >
+                            {content && (
+                              <div className="text-xs">
+                                {content.length > 50 ? `${content.substring(0, 50)}...` : content}
+                              </div>
+                            )}
+                            {!content && <div className="text-xs text-slate-400 italic">Click to add</div>}
+                          </div>
+                        </td>
+                      )
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        {/* Legend */}
-        <div className="mt-6 p-4 bg-slate-50 rounded-lg">
-          <h4 className="font-semibold text-slate-700 mb-3">Status Legend</h4>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
-            {[
-              "available",
-              "scheduled",
-              "unavailable",
-              "break",
-              "lunch",
-              "office-hours",
-              "meeting",
-              "research",
-              "on-leave",
-            ].map((status) => (
-              <div key={status} className="flex items-center space-x-2">
-                <Badge className={`text-xs ${getStatusColor(status)}`}>{getStatusLabel(status)}</Badge>
-              </div>
-            ))}
+        {/* Mobile View */}
+        <div className="lg:hidden space-y-4">
+          {scheduleData.timeSlots.map((timeSlot) => (
+            <Card key={timeSlot} className="border border-slate-200">
+              <CardHeader className="pb-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <Clock className="w-4 h-4 text-blue-600" />
+                    <span className="font-semibold text-slate-700">{timeSlot}</span>
+                  </div>
+                  <Badge variant="outline" className="text-xs">
+                    {currentTeacher?.name}
+                  </Badge>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {scheduleData.columns.map((column) => {
+                  const content = getCellContent(timeSlot, column)
+                  if (!content.trim()) return null
+
+                  return (
+                    <div
+                      key={column.key}
+                      className={`p-3 rounded-lg cursor-pointer hover:opacity-80 transition-opacity ${getCellColor(content, column)}`}
+                      onClick={() => handleSlotClick(timeSlot, column.key, content)}
+                    >
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <div className="text-xs font-medium text-slate-600 mb-1">{column.label}</div>
+                          <div className="text-sm">{content}</div>
+                        </div>
+                        <Edit3 className="w-3 h-3 text-slate-400" />
+                      </div>
+                    </div>
+                  )
+                })}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {/* Statistics - Updated to count only busy slots */}
+        <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="text-center p-3 bg-red-50 rounded-lg">
+            <div className="text-lg font-bold text-red-900">
+              {
+                scheduleData.timeSlots.filter(
+                  (slot) => getCellContent(slot, { key: "availability" } as ScheduleColumn) === "busy",
+                ).length
+              }
+            </div>
+            <div className="text-xs text-red-600">Busy Slots</div>
+          </div>
+          <div className="text-center p-3 bg-green-50 rounded-lg">
+            <div className="text-lg font-bold text-green-900">
+              {
+                scheduleData.timeSlots.filter(
+                  (slot) => getCellContent(slot, { key: "availability" } as ScheduleColumn) === "available",
+                ).length
+              }
+            </div>
+            <div className="text-xs text-green-600">Available Slots</div>
+          </div>
+          <div className="text-center p-3 bg-purple-50 rounded-lg">
+            <div className="text-lg font-bold text-purple-900">
+              {
+                scheduleData.timeSlots.filter((slot) => getCellContent(slot, { key: "meetings" } as ScheduleColumn))
+                  .length
+              }
+            </div>
+            <div className="text-xs text-purple-600">Meetings</div>
+          </div>
+          <div className="text-center p-3 bg-orange-50 rounded-lg">
+            <div className="text-lg font-bold text-orange-900">
+              {
+                scheduleData.timeSlots.filter((slot) => getCellContent(slot, { key: "break_time" } as ScheduleColumn))
+                  .length
+              }
+            </div>
+            <div className="text-xs text-orange-600">Break Times</div>
           </div>
         </div>
       </CardContent>
 
-      {/* Edit Slot Modal */}
+      {/* Edit Modal */}
       <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Edit Schedule Slot</DialogTitle>
+            <DialogTitle>Edit Schedule Entry</DialogTitle>
             <DialogDescription>
-              {selectedSlot &&
-                `${selectedSlot.timeSlot} - ${
-                  scheduleData.teachers.find((t) => t.id === selectedSlot.teacherId)?.name
-                }`}
+              {selectedSlot && `${selectedSlot.timeSlot} - ${selectedSlot.column.replace("_", " ").toUpperCase()}`}
             </DialogDescription>
           </DialogHeader>
           {selectedSlot && (
@@ -216,6 +351,7 @@ export function ScheduleTable() {
               initialData={selectedSlot.data}
               onSave={handleSlotUpdate}
               onCancel={() => setIsEditModalOpen(false)}
+              isAvailabilityField={selectedSlot.column === "availability"}
             />
           )}
         </DialogContent>
@@ -225,13 +361,14 @@ export function ScheduleTable() {
 }
 
 interface EditSlotFormProps {
-  initialData: ScheduleSlot
-  onSave: (data: ScheduleSlot) => void
+  initialData: string
+  onSave: (data: string) => void
   onCancel: () => void
+  isAvailabilityField?: boolean
 }
 
-function EditSlotForm({ initialData, onSave, onCancel }: EditSlotFormProps) {
-  const [formData, setFormData] = useState<ScheduleSlot>(initialData)
+function EditSlotForm({ initialData, onSave, onCancel, isAvailabilityField = false }: EditSlotFormProps) {
+  const [formData, setFormData] = useState(initialData)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -241,60 +378,32 @@ function EditSlotForm({ initialData, onSave, onCancel }: EditSlotFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="status">Status</Label>
-        <Select value={formData.status} onValueChange={(value) => setFormData({ ...formData, status: value })}>
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="available">Available</SelectItem>
-            <SelectItem value="scheduled">Scheduled</SelectItem>
-            <SelectItem value="unavailable">Unavailable</SelectItem>
-            <SelectItem value="break">Break</SelectItem>
-            <SelectItem value="lunch">Lunch</SelectItem>
-            <SelectItem value="office-hours">Office Hours</SelectItem>
-            <SelectItem value="meeting">Meeting</SelectItem>
-            <SelectItem value="research">Research</SelectItem>
-            <SelectItem value="on-leave">On Leave</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="lesson">Lesson/Activity</Label>
-        <Input
-          id="lesson"
-          value={formData.lesson || ""}
-          onChange={(e) => setFormData({ ...formData, lesson: e.target.value || null })}
-          placeholder="Enter lesson or activity"
-        />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="comments">Comments</Label>
-        <Textarea
-          id="comments"
-          value={formData.comments}
-          onChange={(e) => setFormData({ ...formData, comments: e.target.value })}
-          placeholder="Enter comments"
-          rows={3}
-        />
+        <Label htmlFor="content">Content</Label>
+        {isAvailabilityField ? (
+          <Select value={formData} onValueChange={setFormData}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select availability" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="available">Available</SelectItem>
+              <SelectItem value="busy">Busy</SelectItem>
+              <SelectItem value="not available">Not Available</SelectItem>
+            </SelectContent>
+          </Select>
+        ) : (
+          <Textarea
+            id="content"
+            value={formData}
+            onChange={(e) => setFormData(e.target.value)}
+            placeholder="Enter content for this time slot..."
+            rows={4}
+          />
+        )}
       </div>
 
       <div className="flex justify-end space-x-3 pt-4">
         <Button type="button" variant="outline" onClick={onCancel}>
           Cancel
-        </Button>
-        <Button 
-          type="button" 
-          variant="secondary" 
-          onClick={() => setFormData({
-            status: "available",
-            lesson: null,
-            comments: ""
-          })}
-        >
-          Reset
         </Button>
         <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
           Save Changes

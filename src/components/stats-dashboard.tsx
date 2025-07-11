@@ -82,13 +82,13 @@ export function StatsDashboard({ stats }: StatsDashboardProps) {
               className={`text-xs mt-1 ${
                 stat.changeType === "positive"
                   ? "text-green-600"
-                  : stat.changeType === "negative"
-                    ? "text-red-600"
-                    : "text-slate-500"
+                  : stat.changeType === "neutral" // Changed from "negative"
+                    ? "text-slate-500"
+                    : "text-red-600" // Fallback for any unexpected type, though it should not be hit
               }`}
             >
               {stat.changeType === "positive" && <span className="text-green-600">↗ </span>}
-              {stat.changeType === "negative" && <span className="text-red-600">↘ </span>}
+              {/* Removed stat.changeType === "negative" check */}
               {stat.change}
             </p>
           </CardContent>

@@ -56,7 +56,7 @@ export function DeleteTeacherModal({ teacher, isOpen, onClose, onConfirm }: Dele
             <span>Delete Teacher</span>
           </DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete the teacher's record.
+            This action cannot be undone. This will permanently delete the teacher&apos;s record.
           </DialogDescription>
         </DialogHeader>
 
