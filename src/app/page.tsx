@@ -88,7 +88,6 @@ export default function TeacherManagement() {
       {activeSection === "teachers" && (
         <TeacherListSection
           teachers={teachers}
-          setTeachers={setTeachers}
           onAddTeacher={handleAddTeacher}
           onEditTeacher={handleEditTeacher}
           onDeleteTeacher={handleDeleteTeacher}

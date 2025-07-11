@@ -219,4 +219,4 @@ export class DataManager {
   }
 }
 
-export type { ScheduleData, ScheduleSlot, ScheduleColumn }
+export type { ScheduleData, ScheduleSlot, ScheduleColumn, TeacherSchedule }

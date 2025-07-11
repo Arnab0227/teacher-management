@@ -43,15 +43,14 @@ export function DashboardLayout({ children, activeSection, onSectionChange }: Da
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-white">
       {" "}
-      {/* Changed: flex-col on mobile, flex-row on desktop */}
-      {/* Desktop Sidebar */}
+      
       <aside
         className={cn(
           "hidden lg:flex flex-col bg-black border-r border-gray-200 shadow-sm transition-all duration-300 ease-in-out",
           isSidebarCollapsed ? "w-16" : "w-64",
         )}
       >
-        {/* Sidebar Header */}
+        
         <div className="flex items-center justify-between h-16 border-b border-gray-800 px-4">
           {!isSidebarCollapsed && <h2 className="text-xl font-bold text-white">Teacher Admin</h2>}
           <Button
@@ -64,7 +63,7 @@ export function DashboardLayout({ children, activeSection, onSectionChange }: Da
           </Button>
         </div>
 
-        {/* Navigation */}
+      
         <nav className="flex-1 p-4 space-y-2">
           {navItems.map((item) => (
             <Button
@@ -84,7 +83,7 @@ export function DashboardLayout({ children, activeSection, onSectionChange }: Da
           ))}
         </nav>
       </aside>
-      {/* Mobile Header and Sheet */}
+      
       <header className="lg:hidden w-full bg-black border-b border-gray-200 shadow-sm p-4 flex items-center justify-between">
         <h1 className="text-xl font-bold text-white">Teacher Admin</h1>
         <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
@@ -131,7 +130,7 @@ export function DashboardLayout({ children, activeSection, onSectionChange }: Da
           </SheetContent>
         </Sheet>
       </header>
-      {/* Main Content Area */}
+     
       <main className="flex-1 bg-white overflow-auto">
         <div className="p-4 md:p-6 lg:p-8">
           <div className="max-w-7xl mx-auto space-y-8">{children}</div>

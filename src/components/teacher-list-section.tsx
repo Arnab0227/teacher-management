@@ -1,7 +1,5 @@
 "use client"
 
-import type React from "react"
-
 import { DialogTrigger } from "@/components/ui/dialog"
 import { useState } from "react"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
@@ -56,7 +54,6 @@ interface TeacherFormData {
 
 interface TeacherListSectionProps {
   teachers: Teacher[]
-  setTeachers: React.Dispatch<React.SetStateAction<Teacher[]>>
   onAddTeacher: (data: TeacherFormData) => void
   onEditTeacher: (teacherId: string, data: TeacherFormData) => void
   onDeleteTeacher: (teacherId: string) => void
@@ -64,7 +61,6 @@ interface TeacherListSectionProps {
 
 export function TeacherListSection({
   teachers,
-  setTeachers,
   onAddTeacher,
   onEditTeacher,
   onDeleteTeacher,
