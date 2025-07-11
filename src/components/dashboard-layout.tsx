@@ -41,16 +41,15 @@ export function DashboardLayout({ children, activeSection, onSectionChange }: Da
   ]
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-white">
-      {" "}
-      
+    <div className="flex min-h-screen bg-white">
+      {/* Desktop Sidebar */}
       <aside
         className={cn(
-          "hidden lg:flex flex-col bg-black border-r border-gray-200 shadow-sm transition-all duration-300 ease-in-out",
+          "fixed inset-y-0 left-0 z-20 hidden lg:flex flex-col bg-black border-r border-gray-200 shadow-sm transition-all duration-300 ease-in-out",
           isSidebarCollapsed ? "w-16" : "w-64",
         )}
       >
-        
+        {/* Sidebar Header */}
         <div className="flex items-center justify-between h-16 border-b border-gray-800 px-4">
           {!isSidebarCollapsed && <h2 className="text-xl font-bold text-white">Teacher Admin</h2>}
           <Button
@@ -63,7 +62,7 @@ export function DashboardLayout({ children, activeSection, onSectionChange }: Da
           </Button>
         </div>
 
-      
+        {/* Navigation */}
         <nav className="flex-1 p-4 space-y-2">
           {navItems.map((item) => (
             <Button
@@ -83,59 +82,70 @@ export function DashboardLayout({ children, activeSection, onSectionChange }: Da
           ))}
         </nav>
       </aside>
-      
-      <header className="lg:hidden w-full bg-black border-b border-gray-200 shadow-sm p-4 flex items-center justify-between">
-        <h1 className="text-xl font-bold text-white">Teacher Admin</h1>
-        <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="text-white hover:bg-white hover:text-black">
-              <Menu className="h-6 w-6" />
-              <span className="sr-only">Toggle navigation</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="w-64 p-0 bg-black border-r border-gray-800">
-            <div className="flex flex-col h-full">
-              <div className="flex items-center justify-between h-16 border-b border-gray-800 px-4">
-                <h2 className="text-xl font-bold text-white">Teacher Admin</h2>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setIsSheetOpen(false)}
-                  className="text-white hover:bg-white hover:text-black"
-                >
-                  <X className="h-6 w-6" />
-                  <span className="sr-only">Close navigation</span>
-                </Button>
-              </div>
-              <nav className="flex-1 p-4 space-y-2">
-                {navItems.map((item) => (
+
+      {/* Main Content Area Wrapper */}
+      <div
+        className={cn(
+          "flex flex-col flex-1 min-h-screen transition-all duration-300 ease-in-out",
+          "lg:ml-64", // Default margin for expanded sidebar on large screens
+          isSidebarCollapsed && "lg:ml-16", // Adjust margin for collapsed sidebar on large screens
+        )}
+      >
+        {/* Mobile Header (only visible on small screens) */}
+        <header className="lg:hidden w-full bg-black border-b border-gray-200 shadow-sm p-4 flex items-center justify-between">
+          <h1 className="text-xl font-bold text-white">Teacher Admin</h1>
+          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="text-white hover:bg-white hover:text-black">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Toggle navigation</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-64 p-0 bg-black border-r border-gray-800">
+              <div className="flex flex-col h-full">
+                <div className="flex items-center justify-between h-16 border-b border-gray-800 px-4">
+                  <h2 className="text-xl font-bold text-white">Teacher Admin</h2>
                   <Button
-                    key={item.id}
                     variant="ghost"
-                    className={cn(
-                      "w-full justify-start text-white hover:bg-white hover:text-black transition-colors duration-200",
-                      activeSection === item.id && "bg-white text-black font-semibold",
-                    )}
-                    onClick={() => {
-                      onSectionChange(item.id)
-                      setIsSheetOpen(false)
-                    }}
+                    size="icon"
+                    onClick={() => setIsSheetOpen(false)}
+                    className="text-white hover:bg-white hover:text-black"
                   >
-                    <item.icon className="mr-3 h-5 w-5" />
-                    {item.label}
+                    <X className="h-6 w-6" />
+                    <span className="sr-only">Close navigation</span>
                   </Button>
-                ))}
-              </nav>
-            </div>
-          </SheetContent>
-        </Sheet>
-      </header>
-     
-      <main className="flex-1 bg-white overflow-auto">
-        <div className="p-4 md:p-6 lg:p-8">
-          <div className="max-w-7xl mx-auto space-y-8">{children}</div>
-        </div>
-      </main>
+                </div>
+                <nav className="flex-1 p-4 space-y-2">
+                  {navItems.map((item) => (
+                    <Button
+                      key={item.id}
+                      variant="ghost"
+                      className={cn(
+                        "w-full justify-start text-white hover:bg-white hover:text-black transition-colors duration-200",
+                        activeSection === item.id && "bg-white text-black font-semibold",
+                      )}
+                      onClick={() => {
+                        onSectionChange(item.id)
+                        setIsSheetOpen(false)
+                      }}
+                    >
+                      <item.icon className="mr-3 h-5 w-5" />
+                      {item.label}
+                    </Button>
+                  ))}
+                </nav>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </header>
+
+        {/* Main Content Area */}
+        <main className="flex-1 bg-white overflow-auto">
+          <div className="p-4 md:p-6 lg:p-8">
+            <div className="max-w-7xl mx-auto space-y-8">{children}</div>
+          </div>
+        </main>
+      </div>
     </div>
   )
 }
