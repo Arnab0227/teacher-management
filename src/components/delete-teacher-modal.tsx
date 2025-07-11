@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Dialog,
@@ -7,45 +7,50 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { AlertTriangle } from "lucide-react"
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { AlertTriangle } from "lucide-react";
 
 interface Teacher {
-  id: string
-  name: string
-  email: string
-  phone: string
-  subject: string
-  department: string
-  experience: number
-  status: "active" | "inactive" | "on-leave"
-  avatar?: string
-  joinDate: string
-  location: string
-  rating: number
-  studentsCount: number
-  bio?: string
-  qualifications?: string[]
-  specializations?: string[]
-  hourlyRate: number // Added
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  department: string;
+  experience: number;
+  status: "active" | "inactive" | "on-leave";
+  avatar?: string;
+  joinDate: string;
+  location: string;
+  rating: number;
+  studentsCount: number;
+  bio?: string;
+  qualifications?: string[];
+  specializations?: string[];
+  hourlyRate: number; // Added
 }
 
 interface DeleteTeacherModalProps {
-  teacher: Teacher | null
-  isOpen: boolean
-  onClose: () => void
-  onConfirm: (teacherId: string) => void
+  teacher: Teacher | null;
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: (teacherId: string) => void;
 }
 
-export function DeleteTeacherModal({ teacher, isOpen, onClose, onConfirm }: DeleteTeacherModalProps) {
-  if (!teacher) return null
+export function DeleteTeacherModal({
+  teacher,
+  isOpen,
+  onClose,
+  onConfirm,
+}: DeleteTeacherModalProps) {
+  if (!teacher) return null;
 
   const handleConfirm = () => {
-    onConfirm(teacher.id)
-    onClose()
-  }
+    onConfirm(teacher.id);
+    onClose();
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -56,14 +61,18 @@ export function DeleteTeacherModal({ teacher, isOpen, onClose, onConfirm }: Dele
             <span>Delete Teacher</span>
           </DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete the teacher&apos;s record.
+            This action cannot be undone. This will permanently delete the
+            teacher&apos;s record.
           </DialogDescription>
         </DialogHeader>
 
         <div className="py-4">
           <div className="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg">
             <Avatar className="w-12 h-12">
-              <AvatarImage src={teacher.avatar || "/placeholder.svg"} alt={teacher.name} />
+              <AvatarImage
+                src={teacher.avatar || "/placeholder.svg"}
+                alt={teacher.name}
+              />
               <AvatarFallback className="bg-blue-100 text-blue-600 font-semibold">
                 {teacher.name
                   .split(" ")
@@ -89,5 +98,5 @@ export function DeleteTeacherModal({ teacher, isOpen, onClose, onConfirm }: Dele
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

@@ -1,21 +1,34 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Home, Users, CalendarDays, DollarSign, Menu, X, ChevronLeft, ChevronRight } from "lucide-react"
-import { cn } from "@/lib/utils"
+import type React from "react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Home,
+  Users,
+  CalendarDays,
+  DollarSign,
+  Menu,
+  X,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface DashboardLayoutProps {
-  children: React.ReactNode
-  activeSection: string
-  onSectionChange: (section: string) => void
+  children: React.ReactNode;
+  activeSection: string;
+  onSectionChange: (section: string) => void;
 }
 
-export function DashboardLayout({ children, activeSection, onSectionChange }: DashboardLayoutProps) {
-  const [isSheetOpen, setIsSheetOpen] = useState(false)
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
+export function DashboardLayout({
+  children,
+  activeSection,
+  onSectionChange,
+}: DashboardLayoutProps) {
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const navItems = [
     {
@@ -38,7 +51,7 @@ export function DashboardLayout({ children, activeSection, onSectionChange }: Da
       label: "Payment Portal",
       icon: DollarSign,
     },
-  ]
+  ];
 
   return (
     <div className="flex min-h-screen bg-white">
@@ -46,19 +59,25 @@ export function DashboardLayout({ children, activeSection, onSectionChange }: Da
       <aside
         className={cn(
           "fixed inset-y-0 left-0 z-20 hidden lg:flex flex-col bg-black border-r border-gray-200 shadow-sm transition-all duration-300 ease-in-out",
-          isSidebarCollapsed ? "w-16" : "w-64",
+          isSidebarCollapsed ? "w-16" : "w-64"
         )}
       >
         {/* Sidebar Header */}
         <div className="flex items-center justify-between h-16 border-b border-gray-800 px-4">
-          {!isSidebarCollapsed && <h2 className="text-xl font-bold text-white">Teacher Admin</h2>}
+          {!isSidebarCollapsed && (
+            <h2 className="text-xl font-bold text-white">Teacher Admin</h2>
+          )}
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
             className="text-white hover:bg-white hover:text-black transition-colors"
           >
-            {isSidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+            {isSidebarCollapsed ? (
+              <ChevronRight className="w-4 h-4" />
+            ) : (
+              <ChevronLeft className="w-4 h-4" />
+            )}
           </Button>
         </div>
 
@@ -71,40 +90,49 @@ export function DashboardLayout({ children, activeSection, onSectionChange }: Da
               className={cn(
                 "w-full text-white hover:bg-white hover:text-black transition-colors duration-200",
                 isSidebarCollapsed ? "justify-center px-2" : "justify-start",
-                activeSection === item.id && "bg-white text-black font-semibold",
+                activeSection === item.id && "bg-white text-black font-semibold"
               )}
               onClick={() => onSectionChange(item.id)}
               title={isSidebarCollapsed ? item.label : undefined}
             >
-              <item.icon className={cn("h-5 w-5", !isSidebarCollapsed && "mr-3")} />
+              <item.icon
+                className={cn("h-5 w-5", !isSidebarCollapsed && "mr-3")}
+              />
               {!isSidebarCollapsed && item.label}
             </Button>
           ))}
         </nav>
       </aside>
 
-      {/* Main Content Area Wrapper */}
       <div
         className={cn(
           "flex flex-col flex-1 min-h-screen transition-all duration-300 ease-in-out",
-          "lg:ml-64", // Default margin for expanded sidebar on large screens
-          isSidebarCollapsed && "lg:ml-16", // Adjust margin for collapsed sidebar on large screens
+          "lg:ml-64",
+          isSidebarCollapsed && "lg:ml-16"
         )}
       >
-        {/* Mobile Header (only visible on small screens) */}
         <header className="lg:hidden w-full bg-black border-b border-gray-200 shadow-sm p-4 flex items-center justify-between">
           <h1 className="text-xl font-bold text-white">Teacher Admin</h1>
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-white hover:bg-white hover:text-black">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-white hover:bg-white hover:text-black"
+              >
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Toggle navigation</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-64 p-0 bg-black border-r border-gray-800">
+            <SheetContent
+              side="left"
+              className="w-64 p-0 bg-black border-r border-gray-800"
+            >
               <div className="flex flex-col h-full">
                 <div className="flex items-center justify-between h-16 border-b border-gray-800 px-4">
-                  <h2 className="text-xl font-bold text-white">Teacher Admin</h2>
+                  <h2 className="text-xl font-bold text-white">
+                    Teacher Admin
+                  </h2>
                   <Button
                     variant="ghost"
                     size="icon"
@@ -122,11 +150,12 @@ export function DashboardLayout({ children, activeSection, onSectionChange }: Da
                       variant="ghost"
                       className={cn(
                         "w-full justify-start text-white hover:bg-white hover:text-black transition-colors duration-200",
-                        activeSection === item.id && "bg-white text-black font-semibold",
+                        activeSection === item.id &&
+                          "bg-white text-black font-semibold"
                       )}
                       onClick={() => {
-                        onSectionChange(item.id)
-                        setIsSheetOpen(false)
+                        onSectionChange(item.id);
+                        setIsSheetOpen(false);
                       }}
                     >
                       <item.icon className="mr-3 h-5 w-5" />
@@ -139,7 +168,6 @@ export function DashboardLayout({ children, activeSection, onSectionChange }: Da
           </Sheet>
         </header>
 
-        {/* Main Content Area */}
         <main className="flex-1 bg-white overflow-auto">
           <div className="p-4 md:p-6 lg:p-8">
             <div className="max-w-7xl mx-auto space-y-8">{children}</div>
@@ -147,5 +175,5 @@ export function DashboardLayout({ children, activeSection, onSectionChange }: Da
         </main>
       </div>
     </div>
-  )
+  );
 }

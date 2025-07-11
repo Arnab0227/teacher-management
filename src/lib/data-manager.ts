@@ -69,7 +69,7 @@ export class DataManager {
         console.error("Invalid teachers data in storage – falling back to defaults:", err)
       }
     }
-    // If nothing is stored (or parsing failed) bootstrap defaults
+    
     const defaults: Teacher[] = [
       {
         id: "1",
@@ -90,7 +90,7 @@ export class DataManager {
         hourlyRate: 50,
         avatar: "/placeholder.svg",
       },
-      // ... you can keep the rest of your seed data as before
+      
     ]
     this.saveTeachers(defaults)
     return defaults
@@ -177,13 +177,12 @@ export class DataManager {
 
     const schedules: Record<string, TeacherSchedule> = stored?.teacherSchedules || {}
 
-    // ensure each teacher has a schedule
     currentTeachers.forEach((t) => {
       if (!schedules[t.id]) {
         const newSlots: Record<string, ScheduleSlot> = {}
         timeSlots.forEach((slot) => {
           newSlots[slot] = {
-            availability: "available", // default is AVAILABLE now
+            availability: "available",
             unavailability: "",
             schedule: "",
             scheduled_lessons: "",
@@ -197,12 +196,10 @@ export class DataManager {
         })
         schedules[t.id] = { teacherId: t.id, teacherName: t.name, schedule: newSlots }
       } else {
-        // keep name in sync
         schedules[t.id].teacherName = t.name
       }
     })
 
-    // remove orphans
     Object.keys(schedules).forEach((id) => {
       if (!currentTeachers.some((t) => t.id === id)) delete schedules[id]
     })

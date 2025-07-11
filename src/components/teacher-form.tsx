@@ -64,7 +64,7 @@ export function TeacherForm({ initialData, onSubmit, onCancel, isEditing = false
     if (!formData.location.trim()) newErrors.location = "Location is required"
     if (formData.rating < 0 || formData.rating > 5) newErrors.rating = "Rating must be between 0 and 5"
     if (formData.studentsCount < 0) newErrors.studentsCount = "Students count must be non-negative"
-    if (formData.hourlyRate <= 0) newErrors.hourlyRate = "Hourly rate must be positive" // Added validation
+    if (formData.hourlyRate <= 0) newErrors.hourlyRate = "Hourly rate must be positive" 
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -187,7 +187,6 @@ export function TeacherForm({ initialData, onSubmit, onCancel, isEditing = false
         </div>
       </div>
 
-      {/* New fields for students, rating, qualifications, specializations */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="studentsCount">Number of Students *</Label>
@@ -219,7 +218,6 @@ export function TeacherForm({ initialData, onSubmit, onCancel, isEditing = false
         </div>
       </div>
 
-      {/* Hourly Rate Field */}
       <div className="space-y-2">
         <Label htmlFor="hourlyRate">Hourly Rate (₹) *</Label>
         <Input
@@ -239,7 +237,7 @@ export function TeacherForm({ initialData, onSubmit, onCancel, isEditing = false
         <Label htmlFor="qualifications">Qualifications (comma-separated)</Label>
         <Textarea
           id="qualifications"
-          value={formData.qualifications.join(", ")} // Display array as comma-separated string
+          value={formData.qualifications.join(", ")} 
           onChange={(e) => handleArrayInputChange("qualifications", e.target.value)}
           placeholder="e.g., PhD in Math, M.Ed in Curriculum"
           rows={2}
@@ -250,7 +248,7 @@ export function TeacherForm({ initialData, onSubmit, onCancel, isEditing = false
         <Label htmlFor="specializations">Specializations (comma-separated)</Label>
         <Textarea
           id="specializations"
-          value={formData.specializations.join(", ")} // Display array as comma-separated string
+          value={formData.specializations.join(", ")} 
           onChange={(e) => handleArrayInputChange("specializations", e.target.value)}
           placeholder="e.g., Calculus, Statistics, Algebra"
           rows={2}

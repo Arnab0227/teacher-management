@@ -49,7 +49,6 @@ export function ScheduleChart({ teachers }: ScheduleChartProps) {
   useEffect(() => {
     const loadSchedule = () => {
       try {
-        // Pass teachers to getScheduleData
         const data = DataManager.getScheduleData(teachers)
         setScheduleData(data)
 
@@ -90,7 +89,6 @@ export function ScheduleChart({ teachers }: ScheduleChartProps) {
       },
     }
 
-    // Correctly update teacherSchedules, which is a Record<string, TeacherSchedule>
     const updatedScheduleData: ScheduleData = {
       ...scheduleData,
       teacherSchedules: {
@@ -200,7 +198,6 @@ export function ScheduleChart({ teachers }: ScheduleChartProps) {
       </CardHeader>
 
       <CardContent>
-        {/* Desktop View */}
         <div className="hidden lg:block">
           <div className="overflow-x-auto">
             <table className="w-full border-collapse border border-slate-200">
@@ -253,7 +250,6 @@ export function ScheduleChart({ teachers }: ScheduleChartProps) {
           </div>
         </div>
 
-        {/* Mobile View */}
         <div className="lg:hidden space-y-4">
           {scheduleData.timeSlots.map((timeSlot) => (
             <Card key={timeSlot} className="border border-slate-200">
@@ -294,7 +290,6 @@ export function ScheduleChart({ teachers }: ScheduleChartProps) {
           ))}
         </div>
 
-        {/* Statistics - Updated to count only busy slots */}
         <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="text-center p-3 bg-red-50 rounded-lg">
             <div className="text-lg font-bold text-red-900">
@@ -337,7 +332,6 @@ export function ScheduleChart({ teachers }: ScheduleChartProps) {
         </div>
       </CardContent>
 
-      {/* Edit Modal */}
       <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>

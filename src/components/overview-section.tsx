@@ -118,7 +118,6 @@ export function OverviewSection({ teachers }: OverviewSectionProps) {
         <p className="text-slate-600 mt-2">Key metrics and insights for your teaching staff</p>
       </div>
 
-      {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="bg-white shadow-sm border-0 shadow-slate-200/50 hover:shadow-lg transition-all duration-200 hover:-translate-y-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -169,7 +168,6 @@ export function OverviewSection({ teachers }: OverviewSectionProps) {
         </Card>
       </div>
 
-      {/* Additional Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="bg-white shadow-sm border-0 shadow-slate-200/50 hover:shadow-lg transition-all duration-200 hover:-translate-y-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -202,7 +200,6 @@ export function OverviewSection({ teachers }: OverviewSectionProps) {
         </Card>
       </div>
 
-      {/* Recently Added Teachers */}
       <Card className="bg-white shadow-sm border-0 shadow-slate-200/50">
         <CardHeader>
           <CardTitle>Recently Added Teachers</CardTitle>
@@ -242,7 +239,6 @@ export function OverviewSection({ teachers }: OverviewSectionProps) {
         </CardContent>
       </Card>
 
-      {/* Department Distribution */}
       <Card className="bg-white shadow-sm border-0 shadow-slate-200/50">
         <CardHeader>
           <CardTitle>Department Distribution</CardTitle>
@@ -262,7 +258,6 @@ export function OverviewSection({ teachers }: OverviewSectionProps) {
         </CardContent>
       </Card>
 
-      {/* Top Performers */}
       <Card className="bg-white shadow-sm border-0 shadow-slate-200/50">
         <CardHeader>
           <CardTitle>Top Performing Teachers</CardTitle>
@@ -312,7 +307,6 @@ export function OverviewSection({ teachers }: OverviewSectionProps) {
         </CardContent>
       </Card>
 
-      {/* Recent Activity */}
       <Card className="bg-white shadow-sm border-0 shadow-slate-200/50">
         <CardHeader>
           <CardTitle>Recent Activity</CardTitle>

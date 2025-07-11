@@ -6,10 +6,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Mail, Phone, MapPin, Calendar, Award, Users, BookOpen, GraduationCap, Clock, DollarSign } from "lucide-react"
-import { DataManager } from "@/lib/data-manager" // Import DataManager
+import { DataManager } from "@/lib/data-manager" 
 import { useEffect, useState } from "react"
 
-// Ensure this Teacher interface is consistent with lib/data-manager.ts
 interface Teacher {
   id: string
   name: string
@@ -27,7 +26,7 @@ interface Teacher {
   bio?: string
   qualifications?: string[]
   specializations?: string[]
-  hourlyRate: number // Changed from optional to required
+  hourlyRate: number 
 }
 
 interface ScheduleSlot {
@@ -41,7 +40,7 @@ interface ViewTeacherModalProps {
   teacher: Teacher | null
   isOpen: boolean
   onClose: () => void
-  allTeachers: Teacher[] // Pass all teachers to access schedule data
+  allTeachers: Teacher[] 
 }
 
 export function ViewTeacherModal({ teacher, isOpen, onClose, allTeachers }: ViewTeacherModalProps) {
@@ -161,7 +160,6 @@ export function ViewTeacherModal({ teacher, isOpen, onClose, allTeachers }: View
 
           <Separator />
 
-          {/* Contact Information */}
           <Card>
             <CardHeader>
               <CardTitle className="text-lg">Contact Information</CardTitle>

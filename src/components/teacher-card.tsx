@@ -19,11 +19,11 @@ interface Teacher {
   avatar?: string
   joinDate: string
   location: string
-  rating: number // Added
-  studentsCount: number // Added
-  bio?: string // Added
-  qualifications?: string[] // Added
-  specializations?: string[] // Added
+  rating: number 
+  studentsCount: number 
+  bio?: string 
+  qualifications?: string[] 
+  specializations?: string[] 
 }
 
 interface TeacherCardProps {

@@ -88,7 +88,6 @@ export function StatsDashboard({ stats }: StatsDashboardProps) {
               }`}
             >
               {stat.changeType === "positive" && <span className="text-green-600">↗ </span>}
-              {/* Removed stat.changeType === "negative" check */}
               {stat.change}
             </p>
           </CardContent>

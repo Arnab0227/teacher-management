@@ -131,11 +131,11 @@ export function PaymentPortalSection({ teachers }: PaymentPortalSectionProps) {
         setPayoutFormData((prev) => ({
           ...prev,
           teacherId: firstTeacher.id,
-          payoutAmount: firstTeacherPayout, // Set payoutAmount here too
+          payoutAmount: firstTeacherPayout, 
         }))
       }
     }
-  }, [teachers, payoutFormData.teacherId]) // Depend on teachers and selectedTeacherId
+  }, [teachers, payoutFormData.teacherId]) 
 
   const validatePayoutForm = (): boolean => {
     const newErrors: Partial<Record<keyof PayoutFormData, string>> = {}
@@ -199,7 +199,6 @@ export function PaymentPortalSection({ teachers }: PaymentPortalSectionProps) {
 
     setIsPayoutSubmitting(true)
     try {
-      // Simulate API call for payout
       await new Promise((resolve) => setTimeout(resolve, 2000))
 
       if (Math.random() > 0.1) {
@@ -207,7 +206,6 @@ export function PaymentPortalSection({ teachers }: PaymentPortalSectionProps) {
         setPayoutMessage(
           `Payout of ₹${payoutFormData.payoutAmount?.toFixed(2)} to ${selectedTeacher?.name} successful!`,
         )
-        // Reset form fields except teacherId for convenience
         setPayoutFormData((prev) => ({
           teacherId: prev.teacherId,
           paymentMethod: "upi",
@@ -297,7 +295,6 @@ export function PaymentPortalSection({ teachers }: PaymentPortalSectionProps) {
         </Dialog>
       </div>
 
-      {/* Teacher Engagement Chart */}
       <Card className="bg-white shadow-sm border-0 shadow-slate-200/50">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
@@ -342,7 +339,6 @@ export function PaymentPortalSection({ teachers }: PaymentPortalSectionProps) {
         </CardContent>
       </Card>
 
-      {/* Payout Option */}
       <Card className="w-full max-w-2xl mx-auto bg-white shadow-lg border-0 shadow-slate-200/50">
         <CardHeader className="text-center">
           <Banknote className="w-10 h-10 text-green-600 mx-auto mb-2" />
