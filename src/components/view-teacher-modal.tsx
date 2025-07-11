@@ -55,12 +55,10 @@ export function ViewTeacherModal({ teacher, isOpen, onClose, allTeachers }: View
       if (teacherSchedule) {
         let engagedSlots = 0
         Object.values(teacherSchedule.schedule).forEach((slot: ScheduleSlot) => {
-          // Count slots where the teacher is actively engaged in a lesson, meeting, or office hours
           if (slot.scheduled_lessons.trim() !== "" || slot.meetings.trim() !== "" || slot.office_hours.trim() !== "") {
             engagedSlots++
           }
         })
-        // Each slot is 30 minutes, so 2 slots = 1 hour
         const hours = engagedSlots * 0.5
         setDailyEngagedHours(hours)
         const rate = teacher.hourlyRate ?? 0
@@ -99,13 +97,11 @@ export function ViewTeacherModal({ teacher, isOpen, onClose, allTeachers }: View
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
         {" "}
-        {/* Increased max-width */}
         <DialogHeader>
           <DialogTitle>Teacher Details</DialogTitle>
           <DialogDescription>Complete information about the selected teacher</DialogDescription>
         </DialogHeader>
         <div className="space-y-6">
-          {/* Header Section */}
           <div className="flex flex-col md:flex-row gap-6">
             <div className="flex items-center space-x-4">
               <Avatar className="w-20 h-20">
@@ -142,7 +138,6 @@ export function ViewTeacherModal({ teacher, isOpen, onClose, allTeachers }: View
                 <GraduationCap className="w-4 h-4" />
                 <span>{teacher.department} Department</span>
               </div>
-              {/* New: Hourly Rate, Daily Engaged Hours, Daily Earnings */}
               <div className="flex items-center space-x-2 text-slate-600">
                 <DollarSign className="w-4 h-4" />
                 <span>₹{teacher.hourlyRate.toFixed(2)}/hour</span>
@@ -198,7 +193,6 @@ export function ViewTeacherModal({ teacher, isOpen, onClose, allTeachers }: View
             </CardContent>
           </Card>
 
-          {/* Bio Section */}
           {teacher.bio && (
             <Card>
               <CardHeader>
@@ -210,7 +204,6 @@ export function ViewTeacherModal({ teacher, isOpen, onClose, allTeachers }: View
             </Card>
           )}
 
-          {/* Qualifications and Specializations */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {teacher.qualifications && teacher.qualifications.length > 0 && (
               <Card>

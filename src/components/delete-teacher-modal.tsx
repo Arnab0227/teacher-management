@@ -29,7 +29,7 @@ interface Teacher {
   bio?: string;
   qualifications?: string[];
   specializations?: string[];
-  hourlyRate: number; // Added
+  hourlyRate: number; 
 }
 
 interface DeleteTeacherModalProps {

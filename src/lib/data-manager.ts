@@ -117,7 +117,7 @@ export class DataManager {
     const teachers = this.getTeachers().filter((t) => t.id !== id)
     this.saveTeachers(teachers)
 
-    // clean schedule
+    
     const sched = this.getScheduleData(teachers)
     delete sched.teacherSchedules[id]
     this.saveScheduleData(sched)

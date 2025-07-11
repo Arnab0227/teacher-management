@@ -21,7 +21,7 @@ interface TeacherFormData {
   studentsCount: number
   qualifications: string[]
   specializations: string[]
-  hourlyRate: number // Added
+  hourlyRate: number 
 }
 
 interface TeacherFormProps {
@@ -45,7 +45,7 @@ export function TeacherForm({ initialData, onSubmit, onCancel, isEditing = false
     studentsCount: initialData?.studentsCount || 0,
     qualifications: initialData?.qualifications || [],
     specializations: initialData?.specializations || [],
-    hourlyRate: initialData?.hourlyRate || 0, // Added
+    hourlyRate: initialData?.hourlyRate || 0, 
   })
 
   const [errors, setErrors] = useState<Partial<Record<keyof TeacherFormData, string>>>({})

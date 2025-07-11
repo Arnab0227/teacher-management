@@ -55,7 +55,6 @@ export function DashboardLayout({
 
   return (
     <div className="flex min-h-screen bg-white">
-      {/* Desktop Sidebar */}
       <aside
         className={cn(
           "fixed inset-y-0 left-0 z-20 hidden lg:flex flex-col bg-black border-r border-gray-200 shadow-sm transition-all duration-300 ease-in-out",
@@ -81,7 +80,6 @@ export function DashboardLayout({
           </Button>
         </div>
 
-        {/* Navigation */}
         <nav className="flex-1 p-4 space-y-2">
           {navItems.map((item) => (
             <Button

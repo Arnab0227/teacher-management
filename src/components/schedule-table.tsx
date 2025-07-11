@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Clock, User, ChevronLeft, ChevronRight, Edit3, Calendar } from "lucide-react"
-import { DataManager, type ScheduleData, type ScheduleSlot, type ScheduleColumn } from "@/lib/data-manager" // Import types from DataManager
+import { DataManager, type ScheduleData, type ScheduleSlot, type ScheduleColumn } from "@/lib/data-manager" 
 
 interface Teacher {
   id: string

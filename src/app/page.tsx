@@ -5,7 +5,7 @@ import { DashboardLayout } from "@/components/dashboard-layout"
 import { TeacherListSection } from "@/components/teacher-list-section"
 import { ScheduleChartSection } from "@/components/schedule-chart-section"
 import { PaymentPortalSection } from "@/components/payment-portal-section"
-import { OverviewSection } from "@/components/overview-section" // Renamed from StatsDashboard
+import { OverviewSection } from "@/components/overview-section"
 import { DataManager } from "@/lib/data-manager"
 
 interface Teacher {
@@ -46,9 +46,8 @@ interface TeacherFormData {
 
 export default function TeacherManagement() {
   const [teachers, setTeachers] = useState<Teacher[]>([])
-  const [activeSection, setActiveSection] = useState("overview") // Default to overview
+  const [activeSection, setActiveSection] = useState("overview") 
 
-  // Load teachers from DataManager
   useEffect(() => {
     const loadTeachers = () => {
       const teachersData = DataManager.getTeachers()
@@ -67,23 +66,23 @@ export default function TeacherManagement() {
     }
 
     DataManager.addTeacher(newTeacher)
-    setTeachers(DataManager.getTeachers()) // Update state to trigger re-render
+    setTeachers(DataManager.getTeachers()) 
   }
 
   const handleEditTeacher = (teacherId: string, data: TeacherFormData) => {
     DataManager.updateTeacher(teacherId, data)
-    setTeachers(DataManager.getTeachers()) // Update state to trigger re-render
+    setTeachers(DataManager.getTeachers()) 
   }
 
   const handleDeleteTeacher = (teacherId: string) => {
     DataManager.deleteTeacher(teacherId)
-    setTeachers(DataManager.getTeachers()) // Update state to trigger re-render
+    setTeachers(DataManager.getTeachers()) 
   }
 
   return (
     <DashboardLayout activeSection={activeSection} onSectionChange={setActiveSection}>
       {activeSection === "overview" && (
-        <OverviewSection teachers={teachers} /> // Pass teachers to the new OverviewSection
+        <OverviewSection teachers={teachers} /> 
       )}
       {activeSection === "teachers" && (
         <TeacherListSection

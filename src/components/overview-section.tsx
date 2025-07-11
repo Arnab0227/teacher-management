@@ -58,7 +58,7 @@ export function OverviewSection({ teachers }: OverviewSectionProps) {
           Object.values(teacherSchedule.schedule).forEach((slot: ScheduleSlot) => {
             if (slot.availability === "busy") {
               busyCount++
-              totalHours += 0.5 // Each busy slot is 30 minutes
+              totalHours += 0.5 
               totalPayouts += 0.5 * (teacher.hourlyRate || 0)
             } else if (slot.availability === "available") {
               availableCount++

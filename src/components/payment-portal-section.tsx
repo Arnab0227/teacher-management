@@ -100,14 +100,13 @@ export function PaymentPortalSection({ teachers }: PaymentPortalSectionProps) {
 
         if (teacherSchedule) {
           Object.entries(teacherSchedule.schedule).forEach(([timeSlot, slot]: [string, ScheduleSlot]) => {
-            // Count only slots marked as "busy"
             if (slot.availability === "busy") {
               busySlots.push(timeSlot)
             }
           })
         }
 
-        const busyHours = busySlots.length * 0.5 // Each slot is 30 minutes
+        const busyHours = busySlots.length * 0.5 
         const safeHourly = typeof teacher.hourlyRate === "number" ? teacher.hourlyRate : 0
         const payout = busyHours * safeHourly
 

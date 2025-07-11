@@ -82,9 +82,9 @@ export function StatsDashboard({ stats }: StatsDashboardProps) {
               className={`text-xs mt-1 ${
                 stat.changeType === "positive"
                   ? "text-green-600"
-                  : stat.changeType === "neutral" // Changed from "negative"
+                  : stat.changeType === "neutral" 
                     ? "text-slate-500"
-                    : "text-red-600" // Fallback for any unexpected type, though it should not be hit
+                    : "text-red-600" 
               }`}
             >
               {stat.changeType === "positive" && <span className="text-green-600">↗ </span>}
