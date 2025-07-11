@@ -44,16 +44,27 @@ interface ScheduleData {
 }
 
 interface Teacher {
-  // Re-defining Teacher interface for clarity within this component
   id: string
   name: string
   email: string
+  phone: string
   subject: string
+  department: string
+  experience: number
   status: "active" | "inactive" | "on-leave"
+  avatar?: string
+  joinDate: string
+  location: string
+  rating: number
+  studentsCount: number
+  bio?: string
+  qualifications?: string[]
+  specializations?: string[]
+  hourlyRate: number
 }
 
 interface ScheduleChartProps {
-  teachers: Teacher[] // Receive teachers as a prop
+  teachers: Teacher[]
 }
 
 export function ScheduleChart({ teachers }: ScheduleChartProps) {
@@ -61,7 +72,7 @@ export function ScheduleChart({ teachers }: ScheduleChartProps) {
   const [selectedTeacherId, setSelectedTeacherId] = useState<string>("")
   const [selectedSlot, setSelectedSlot] = useState<{
     timeSlot: string
-    column: string
+    column: keyof ScheduleSlot
     data: string
   } | null>(null)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
@@ -69,14 +80,14 @@ export function ScheduleChart({ teachers }: ScheduleChartProps) {
   useEffect(() => {
     const loadSchedule = () => {
       try {
-        // Ensure DataManager.getScheduleData is called with the latest teachers
         const data = DataManager.getScheduleData(teachers)
         setScheduleData(data)
 
-        // Set initial selected teacher if not already set or if current teacher is removed
-        if (teachers.length > 0 && (!selectedTeacherId || !teachers.some((t) => t.id === selectedTeacherId))) {
-          setSelectedTeacherId(teachers[0].id)
-        } else if (teachers.length === 0) {
+        if (teachers.length > 0) {
+          if (!selectedTeacherId || !teachers.some((t) => t.id === selectedTeacherId)) {
+            setSelectedTeacherId(teachers[0].id)
+          }
+        } else {
           setSelectedTeacherId("")
         }
       } catch (error) {
@@ -85,14 +96,13 @@ export function ScheduleChart({ teachers }: ScheduleChartProps) {
     }
 
     loadSchedule()
-  }, [teachers, selectedTeacherId]) // Depend on teachers prop and selectedTeacherId
+  }, [teachers, selectedTeacherId])
 
-  // Add validation for current teacher and schedule
   const currentTeacher = teachers.find((t) => t.id === selectedTeacherId)
   const currentSchedule = scheduleData?.teacherSchedules?.[selectedTeacherId]
 
   const handleSlotClick = (timeSlot: string, column: keyof ScheduleSlot, data: string) => {
-    setSelectedSlot({ timeSlot, column: column as string, data }) // Cast column to string
+    setSelectedSlot({ timeSlot, column, data })
     setIsEditModalOpen(true)
   }
 
@@ -137,7 +147,6 @@ export function ScheduleChart({ teachers }: ScheduleChartProps) {
   }
 
   const getCellContent = (timeSlot: string, column: ScheduleColumn) => {
-    // Safely access nested properties
     const slotData = currentSchedule?.schedule?.[timeSlot]
     if (!slotData) return ""
     return slotData[column.key] || ""
@@ -146,10 +155,10 @@ export function ScheduleChart({ teachers }: ScheduleChartProps) {
   const getCellColor = (content: string, column: ScheduleColumn) => {
     if (!content.trim()) return "bg-white"
 
-    // Color coding based on content type
     if (column.key === "availability") {
-      if (content.toLowerCase().includes("available")) return "bg-green-100 text-green-800"
-      if (content.toLowerCase().includes("busy")) return "bg-red-100 text-red-800"
+      if (content === "available") return "bg-green-100 text-green-800"
+      if (content === "busy") return "bg-red-100 text-red-800"
+      if (content === "not available") return "bg-gray-100 text-gray-800"
     }
     if (column.key === "scheduled_lessons" && content) return "bg-blue-100 text-blue-800"
     if (column.key === "meetings" && content) return "bg-purple-100 text-purple-800"
@@ -159,7 +168,6 @@ export function ScheduleChart({ teachers }: ScheduleChartProps) {
     return column.color
   }
 
-  // Don’t render the chart until every piece of data we need is present
   if (
     !scheduleData ||
     !Array.isArray(scheduleData.columns) ||
@@ -186,7 +194,6 @@ export function ScheduleChart({ teachers }: ScheduleChartProps) {
             <span>Teacher Schedule Chart</span>
           </CardTitle>
 
-          {/* Teacher Switcher and Dropdown */}
           <div className="flex flex-wrap items-center gap-4 md:flex-nowrap">
             <div className="flex items-center space-x-4">
               <Button variant="outline" size="sm" onClick={getPrevTeacher} disabled={teachers.length <= 1}>
@@ -205,9 +212,8 @@ export function ScheduleChart({ teachers }: ScheduleChartProps) {
                 <ChevronRight className="w-4 h-4" />
               </Button>
             </div>
-            {/* Single dropdown, its position will be controlled by the parent's flex-wrap */}
-            <Select value={selectedTeacherId} onValueChange={setSelectedTeacherId} className="w-48">
-              <SelectTrigger>
+            <Select value={selectedTeacherId} onValueChange={setSelectedTeacherId}>
+              <SelectTrigger className="w-48">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -317,25 +323,23 @@ export function ScheduleChart({ teachers }: ScheduleChartProps) {
           ))}
         </div>
 
-        {/* Statistics */}
+        {/* Statistics - Updated to count only busy slots */}
         <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="text-center p-3 bg-blue-50 rounded-lg">
-            <div className="text-lg font-bold text-blue-900">
+          <div className="text-center p-3 bg-red-50 rounded-lg">
+            <div className="text-lg font-bold text-red-900">
               {
-                scheduleData.timeSlots.filter((slot) =>
-                  getCellContent(slot, { key: "scheduled_lessons" } as ScheduleColumn),
+                scheduleData.timeSlots.filter(
+                  (slot) => getCellContent(slot, { key: "availability" } as ScheduleColumn) === "busy",
                 ).length
               }
             </div>
-            <div className="text-xs text-blue-600">Scheduled Classes</div>
+            <div className="text-xs text-red-600">Busy Slots</div>
           </div>
           <div className="text-center p-3 bg-green-50 rounded-lg">
             <div className="text-lg font-bold text-green-900">
               {
-                scheduleData.timeSlots.filter((slot) =>
-                  getCellContent(slot, { key: "availability" } as ScheduleColumn)
-                    .toLowerCase()
-                    .includes("available"),
+                scheduleData.timeSlots.filter(
+                  (slot) => getCellContent(slot, { key: "availability" } as ScheduleColumn) === "available",
                 ).length
               }
             </div>
@@ -376,6 +380,7 @@ export function ScheduleChart({ teachers }: ScheduleChartProps) {
               initialData={selectedSlot.data}
               onSave={handleSlotUpdate}
               onCancel={() => setIsEditModalOpen(false)}
+              isAvailabilityField={selectedSlot.column === "availability"}
             />
           )}
         </DialogContent>
@@ -388,9 +393,10 @@ interface EditSlotFormProps {
   initialData: string
   onSave: (data: string) => void
   onCancel: () => void
+  isAvailabilityField?: boolean
 }
 
-function EditSlotForm({ initialData, onSave, onCancel }: EditSlotFormProps) {
+function EditSlotForm({ initialData, onSave, onCancel, isAvailabilityField = false }: EditSlotFormProps) {
   const [formData, setFormData] = useState(initialData)
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -402,13 +408,26 @@ function EditSlotForm({ initialData, onSave, onCancel }: EditSlotFormProps) {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="content">Content</Label>
-        <Textarea
-          id="content"
-          value={formData}
-          onChange={(e) => setFormData(e.target.value)}
-          placeholder="Enter content for this time slot..."
-          rows={4}
-        />
+        {isAvailabilityField ? (
+          <Select value={formData} onValueChange={setFormData}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select availability" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="available">Available</SelectItem>
+              <SelectItem value="busy">Busy</SelectItem>
+              <SelectItem value="not available">Not Available</SelectItem>
+            </SelectContent>
+          </Select>
+        ) : (
+          <Textarea
+            id="content"
+            value={formData}
+            onChange={(e) => setFormData(e.target.value)}
+            placeholder="Enter content for this time slot..."
+            rows={4}
+          />
+        )}
       </div>
 
       <div className="flex justify-end space-x-3 pt-4">

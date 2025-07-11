@@ -20,6 +20,7 @@ interface Teacher {
   bio?: string
   qualifications?: string[]
   specializations?: string[]
+  hourlyRate: number // Added
 }
 
 interface TeacherFormData {
@@ -31,10 +32,11 @@ interface TeacherFormData {
   experience: number
   location: string
   bio?: string
-  rating: number // Added
-  studentsCount: number // Added
-  qualifications: string[] // Added
-  specializations: string[] // Added
+  rating: number
+  studentsCount: number
+  qualifications: string[]
+  specializations: string[]
+  hourlyRate: number // Added
 }
 
 interface EditTeacherModalProps {
@@ -61,10 +63,11 @@ export function EditTeacherModal({ teacher, isOpen, onClose, onSave }: EditTeach
     experience: teacher.experience,
     location: teacher.location,
     bio: teacher.bio || "",
-    rating: teacher.rating || 0, // Added
-    studentsCount: teacher.studentsCount || 0, // Added
-    qualifications: teacher.qualifications || [], // Added
-    specializations: teacher.specializations || [], // Added
+    rating: teacher.rating || 0,
+    studentsCount: teacher.studentsCount || 0,
+    qualifications: teacher.qualifications || [],
+    specializations: teacher.specializations || [],
+    hourlyRate: teacher.hourlyRate || 0, // Added
   }
 
   return (

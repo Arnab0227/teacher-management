@@ -16,8 +16,6 @@ interface StatsDashboardProps {
   stats: StatsData
 }
 
-type ChangeType = "positive" | "negative" | "neutral"
-
 export function StatsDashboard({ stats }: StatsDashboardProps) {
   const statCards = [
     {
@@ -26,7 +24,7 @@ export function StatsDashboard({ stats }: StatsDashboardProps) {
       icon: Users,
       color: "text-blue-600",
       change: "+2 from last month",
-      changeType: "positive" as ChangeType,
+      changeType: "positive" as const,
     },
     {
       title: "Active Teachers",
@@ -34,7 +32,7 @@ export function StatsDashboard({ stats }: StatsDashboardProps) {
       icon: GraduationCap,
       color: "text-green-600",
       change: `${((stats.activeTeachers / stats.totalTeachers) * 100).toFixed(1)}% of total`,
-      changeType: "neutral" as ChangeType,
+      changeType: "neutral" as const,
     },
     {
       title: "Total Students",
@@ -42,7 +40,7 @@ export function StatsDashboard({ stats }: StatsDashboardProps) {
       icon: BookOpen,
       color: "text-purple-600",
       change: `Avg ${Math.round(stats.totalStudents / stats.activeTeachers)} per teacher`,
-      changeType: "neutral" as ChangeType,
+      changeType: "neutral" as const,
     },
     {
       title: "Avg Rating",
@@ -50,7 +48,7 @@ export function StatsDashboard({ stats }: StatsDashboardProps) {
       icon: Award,
       color: "text-orange-600",
       change: "+0.2 from last quarter",
-      changeType: "positive" as ChangeType,
+      changeType: "positive" as const,
     },
     {
       title: "Avg Experience",
@@ -58,7 +56,7 @@ export function StatsDashboard({ stats }: StatsDashboardProps) {
       icon: Clock,
       color: "text-indigo-600",
       change: "Across all teachers",
-      changeType: "neutral" as ChangeType,
+      changeType: "neutral" as const,
     },
     {
       title: "Departments",
@@ -66,7 +64,7 @@ export function StatsDashboard({ stats }: StatsDashboardProps) {
       icon: TrendingUp,
       color: "text-pink-600",
       change: "Active departments",
-      changeType: "neutral" as ChangeType,
+      changeType: "neutral" as const,
     },
   ]
 

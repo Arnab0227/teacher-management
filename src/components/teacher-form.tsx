@@ -17,10 +17,11 @@ interface TeacherFormData {
   experience: number
   location: string
   bio?: string
-  rating: number // Added
-  studentsCount: number // Added
-  qualifications: string[] // Added
-  specializations: string[] // Added
+  rating: number
+  studentsCount: number
+  qualifications: string[]
+  specializations: string[]
+  hourlyRate: number // Added
 }
 
 interface TeacherFormProps {
@@ -40,17 +41,18 @@ export function TeacherForm({ initialData, onSubmit, onCancel, isEditing = false
     experience: initialData?.experience || 0,
     location: initialData?.location || "",
     bio: initialData?.bio || "",
-    rating: initialData?.rating || 0, // Added
-    studentsCount: initialData?.studentsCount || 0, // Added
-    qualifications: initialData?.qualifications || [], // Added
-    specializations: initialData?.specializations || [], // Added
+    rating: initialData?.rating || 0,
+    studentsCount: initialData?.studentsCount || 0,
+    qualifications: initialData?.qualifications || [],
+    specializations: initialData?.specializations || [],
+    hourlyRate: initialData?.hourlyRate || 0, // Added
   })
 
-  const [errors, setErrors] = useState<Partial<TeacherFormData>>({})
+  const [errors, setErrors] = useState<Partial<Record<keyof TeacherFormData, string>>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const validateForm = (): boolean => {
-    const newErrors: Partial<TeacherFormData> = {}
+    const newErrors: Partial<Record<keyof TeacherFormData, string>> = {}
 
     if (!formData.name.trim()) newErrors.name = "Name is required"
     if (!formData.email.trim()) newErrors.email = "Email is required"
@@ -60,8 +62,9 @@ export function TeacherForm({ initialData, onSubmit, onCancel, isEditing = false
     if (!formData.department) newErrors.department = "Department is required"
     if (formData.experience < 0) newErrors.experience = "Experience must be positive"
     if (!formData.location.trim()) newErrors.location = "Location is required"
-    if (formData.rating < 0 || formData.rating > 5) newErrors.rating = "Rating must be between 0 and 5" // Added validation
-    if (formData.studentsCount < 0) newErrors.studentsCount = "Students count must be non-negative" // Added validation
+    if (formData.rating < 0 || formData.rating > 5) newErrors.rating = "Rating must be between 0 and 5"
+    if (formData.studentsCount < 0) newErrors.studentsCount = "Students count must be non-negative"
+    if (formData.hourlyRate <= 0) newErrors.hourlyRate = "Hourly rate must be positive" // Added validation
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -74,32 +77,25 @@ export function TeacherForm({ initialData, onSubmit, onCancel, isEditing = false
 
     setIsSubmitting(true)
     try {
-      // Convert comma-separated strings to arrays for qualifications and specializations
-      const dataToSubmit = {
-        ...formData,
-        qualifications:
-          typeof formData.qualifications === "string"
-            ? formData.qualifications
-                .split(",")
-                .map((s) => s.trim())
-                .filter(Boolean)
-            : formData.qualifications,
-        specializations:
-          typeof formData.specializations === "string"
-            ? formData.specializations
-                .split(",")
-                .map((s) => s.trim())
-                .filter(Boolean)
-            : formData.specializations,
-      }
-      await onSubmit(dataToSubmit as TeacherFormData) // Cast to TeacherFormData
+      await onSubmit(formData)
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const handleInputChange = (field: keyof TeacherFormData, value: string | number | string[]) => {
+  const handleInputChange = (field: keyof TeacherFormData, value: string | number) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }))
+    }
+  }
+
+  const handleArrayInputChange = (field: "qualifications" | "specializations", value: string) => {
+    const arrayValue = value
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean)
+    setFormData((prev) => ({ ...prev, [field]: arrayValue }))
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }))
     }
@@ -223,12 +219,28 @@ export function TeacherForm({ initialData, onSubmit, onCancel, isEditing = false
         </div>
       </div>
 
+      {/* Hourly Rate Field */}
+      <div className="space-y-2">
+        <Label htmlFor="hourlyRate">Hourly Rate (₹) *</Label>
+        <Input
+          id="hourlyRate"
+          type="number"
+          min="0.01"
+          step="0.01"
+          value={formData.hourlyRate}
+          onChange={(e) => handleInputChange("hourlyRate", Number.parseFloat(e.target.value) || 0)}
+          placeholder="Enter hourly rate"
+          className={errors.hourlyRate ? "border-red-500" : ""}
+        />
+        {errors.hourlyRate && <p className="text-sm text-red-500">{errors.hourlyRate}</p>}
+      </div>
+
       <div className="space-y-2">
         <Label htmlFor="qualifications">Qualifications (comma-separated)</Label>
         <Textarea
           id="qualifications"
-          value={Array.isArray(formData.qualifications) ? formData.qualifications.join(", ") : formData.qualifications}
-          onChange={(e) => handleInputChange("qualifications", e.target.value)}
+          value={formData.qualifications.join(", ")} // Display array as comma-separated string
+          onChange={(e) => handleArrayInputChange("qualifications", e.target.value)}
           placeholder="e.g., PhD in Math, M.Ed in Curriculum"
           rows={2}
         />
@@ -238,10 +250,8 @@ export function TeacherForm({ initialData, onSubmit, onCancel, isEditing = false
         <Label htmlFor="specializations">Specializations (comma-separated)</Label>
         <Textarea
           id="specializations"
-          value={
-            Array.isArray(formData.specializations) ? formData.specializations.join(", ") : formData.specializations
-          }
-          onChange={(e) => handleInputChange("specializations", e.target.value)}
+          value={formData.specializations.join(", ")} // Display array as comma-separated string
+          onChange={(e) => handleArrayInputChange("specializations", e.target.value)}
           placeholder="e.g., Calculus, Statistics, Algebra"
           rows={2}
         />

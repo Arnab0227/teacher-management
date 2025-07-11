@@ -5,7 +5,9 @@ import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { Mail, Phone, MapPin, Calendar, Award, Users, BookOpen, GraduationCap, Clock } from "lucide-react"
+import { Mail, Phone, MapPin, Calendar, Award, Users, BookOpen, GraduationCap, Clock, DollarSign } from "lucide-react"
+import { DataManager } from "@/lib/data-manager" // Import DataManager
+import { useEffect, useState } from "react"
 
 interface Teacher {
   id: string
@@ -24,15 +26,52 @@ interface Teacher {
   bio?: string
   qualifications?: string[]
   specializations?: string[]
+  hourlyRate?: number
+}
+
+interface ScheduleSlot {
+  availability: string
+  scheduled_lessons: string
+  meetings: string
+  office_hours: string
 }
 
 interface ViewTeacherModalProps {
   teacher: Teacher | null
   isOpen: boolean
   onClose: () => void
+  allTeachers: Teacher[] // Pass all teachers to access schedule data
 }
 
-export function ViewTeacherModal({ teacher, isOpen, onClose }: ViewTeacherModalProps) {
+export function ViewTeacherModal({ teacher, isOpen, onClose, allTeachers }: ViewTeacherModalProps) {
+  const [dailyEngagedHours, setDailyEngagedHours] = useState(0)
+  const [dailyEarnings, setDailyEarnings] = useState(0)
+
+  useEffect(() => {
+    if (teacher && isOpen) {
+      const scheduleData = DataManager.getScheduleData(allTeachers)
+      const teacherSchedule = scheduleData.teacherSchedules[teacher.id]
+
+      if (teacherSchedule) {
+        let engagedSlots = 0
+        Object.values(teacherSchedule.schedule).forEach((slot: ScheduleSlot) => {
+          // Count slots where the teacher is actively engaged in a lesson, meeting, or office hours
+          if (slot.scheduled_lessons.trim() !== "" || slot.meetings.trim() !== "" || slot.office_hours.trim() !== "") {
+            engagedSlots++
+          }
+        })
+        // Each slot is 30 minutes, so 2 slots = 1 hour
+        const hours = engagedSlots * 0.5
+        setDailyEngagedHours(hours)
+        const rate = teacher.hourlyRate ?? 0
+        setDailyEarnings(hours * rate)
+      } else {
+        setDailyEngagedHours(0)
+        setDailyEarnings(0)
+      }
+    }
+  }, [teacher, isOpen, allTeachers])
+
   if (!teacher) return null
 
   const getStatusColor = (status: string) => {
@@ -102,6 +141,19 @@ export function ViewTeacherModal({ teacher, isOpen, onClose }: ViewTeacherModalP
               <div className="flex items-center space-x-2 text-slate-600">
                 <GraduationCap className="w-4 h-4" />
                 <span>{teacher.department} Department</span>
+              </div>
+              {/* New: Hourly Rate, Daily Engaged Hours, Daily Earnings */}
+              <div className="flex items-center space-x-2 text-slate-600">
+                <DollarSign className="w-4 h-4" />
+                <span>{teacher.hourlyRate !== undefined ? `$${teacher.hourlyRate.toFixed(2)}/hour` : "N/A"}</span>
+              </div>
+              <div className="flex items-center space-x-2 text-slate-600">
+                <Clock className="w-4 h-4" />
+                <span>{dailyEngagedHours.toFixed(1)} Engaged Hours/Day</span>
+              </div>
+              <div className="flex items-center space-x-2 text-slate-600">
+                <DollarSign className="w-4 h-4" />
+                <span>${dailyEarnings.toFixed(2)} Daily Earnings</span>
               </div>
             </div>
           </div>
