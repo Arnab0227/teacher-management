@@ -1,0 +1,654 @@
+{
+  "timeSlots": [
+    "08:00",
+    "08:30",
+    "09:00",
+    "09:30",
+    "10:00",
+    "10:30",
+    "11:00",
+    "11:30",
+    "12:00",
+    "12:30",
+    "13:00",
+    "13:30",
+    "14:00",
+    "14:30",
+    "15:00",
+    "15:30",
+    "16:00",
+    "16:30",
+    "17:00",
+    "17:30"
+  ],
+  "columns": [
+    "availability",
+    "unavailability",
+    "scheduled_lessons",
+    "unscheduled_lessons",
+    "meetings",
+    "break_time",
+    "office_hours",
+    "comments"
+  ],
+  "teacherSchedules": {
+    "1": {
+      "teacherId": "1",
+      "teacherName": "Dr. Sarah Johnson",
+      "schedule": {
+        "08:00": {
+          "availability": "available",
+          "unavailability": "",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": ""
+        },
+        "08:30": {
+          "availability": "busy",
+          "unavailability": "",
+          "scheduled_lessons": "Math 101 - Room 205",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Advanced Calculus"
+        },
+        "09:00": {
+          "availability": "busy",
+          "unavailability": "",
+          "scheduled_lessons": "Math 101 - Room 205",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Advanced Calculus"
+        },
+        "09:30": {
+          "availability": "busy",
+          "unavailability": "",
+          "scheduled_lessons": "Math 102 - Room 205",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Statistics"
+        },
+        "10:00": {
+          "availability": "busy",
+          "unavailability": "",
+          "scheduled_lessons": "Math 102 - Room 205",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Statistics"
+        },
+        "10:30": {
+          "availability": "available",
+          "unavailability": "",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "Coffee break",
+          "office_hours": "",
+          "comments": ""
+        },
+        "11:00": {
+          "availability": "busy",
+          "unavailability": "",
+          "scheduled_lessons": "Math 201 - Room 205",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Linear Algebra"
+        },
+        "11:30": {
+          "availability": "busy",
+          "unavailability": "",
+          "scheduled_lessons": "Math 201 - Room 205",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Linear Algebra"
+        },
+        "12:00": {
+          "availability": "available",
+          "unavailability": "",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "Lunch break",
+          "office_hours": "",
+          "comments": ""
+        },
+        "12:30": {
+          "availability": "available",
+          "unavailability": "",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "Lunch break",
+          "office_hours": "",
+          "comments": ""
+        },
+        "13:00": {
+          "availability": "busy",
+          "unavailability": "",
+          "scheduled_lessons": "Math 103 - Room 205",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Geometry"
+        },
+        "13:30": {
+          "availability": "busy",
+          "unavailability": "",
+          "scheduled_lessons": "Math 103 - Room 205",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Geometry"
+        },
+        "14:00": {
+          "availability": "available",
+          "unavailability": "",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "Office hours",
+          "comments": "Student consultations"
+        },
+        "14:30": {
+          "availability": "available",
+          "unavailability": "",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "Office hours",
+          "comments": "Student consultations"
+        },
+        "15:00": {
+          "availability": "busy",
+          "unavailability": "",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "Department meeting",
+          "break_time": "",
+          "office_hours": "",
+          "comments": ""
+        },
+        "15:30": {
+          "availability": "available",
+          "unavailability": "",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": ""
+        },
+        "16:00": {
+          "availability": "available",
+          "unavailability": "",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": ""
+        },
+        "16:30": {
+          "availability": "unavailable",
+          "unavailability": "",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Personal time"
+        },
+        "17:00": {
+          "availability": "unavailable",
+          "unavailability": "End of day",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Personal time"
+        },
+        "17:30": {
+          "availability": "unavailable",
+          "unavailability": "End of day",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Personal time"
+        }
+      }
+    },
+    "2": {
+      "teacherId": "2",
+      "teacherName": "Prof. Michael Chen",
+      "schedule": {
+        "08:00": {
+          "availability": "available",
+          "unavailability": "",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "Early office hours",
+          "comments": ""
+        },
+        "08:30": {
+          "availability": "busy",
+          "unavailability": "",
+          "scheduled_lessons": "Physics 101 - Lab A",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "Early office hours",
+          "comments": "Mechanics"
+        },
+        "09:00": {
+          "availability": "busy",
+          "unavailability": "",
+          "scheduled_lessons": "Physics 101 - Lab A",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Mechanics"
+        },
+        "09:30": {
+          "availability": "busy",
+          "unavailability": "",
+          "scheduled_lessons": "Physics 101 - Lab A",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Mechanics"
+        },
+        "10:00": {
+          "availability": "available",
+          "unavailability": "",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "Break",
+          "office_hours": "",
+          "comments": "Preparation time"
+        },
+        "10:30": {
+          "availability": "busy",
+          "unavailability": "",
+          "scheduled_lessons": "Physics 201 - Lab B",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Quantum Physics"
+        },
+        "11:00": {
+          "availability": "busy",
+          "unavailability": "",
+          "scheduled_lessons": "Physics 201 - Lab B",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Quantum Physics"
+        },
+        "11:30": {
+          "availability": "busy",
+          "unavailability": "",
+          "scheduled_lessons": "Physics 201 - Lab B",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Quantum Physics"
+        },
+        "12:00": {
+          "availability": "available",
+          "unavailability": "",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "Lunch",
+          "office_hours": "",
+          "comments": ""
+        },
+        "12:30": {
+          "availability": "available",
+          "unavailability": "",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "Lunch",
+          "office_hours": "",
+          "comments": ""
+        },
+        "13:00": {
+          "availability": "busy",
+          "unavailability": "",
+          "scheduled_lessons": "Physics 102 - Room 301",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Thermodynamics"
+        },
+        "13:30": {
+          "availability": "busy",
+          "unavailability": "",
+          "scheduled_lessons": "Physics 102 - Room 301",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Thermodynamics"
+        },
+        "14:00": {
+          "availability": "available",
+          "unavailability": "",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": ""
+        },
+        "14:30": {
+          "availability": "available",
+          "unavailability": "",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": ""
+        },
+        "15:00": {
+          "availability": "busy",
+          "unavailability": "",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "Office hours",
+          "comments": "Student consultations"
+        },
+        "15:30": {
+          "availability": "busy",
+          "unavailability": "",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "Office hours",
+          "comments": "Student consultations"
+        },
+        "16:00": {
+          "availability": "available",
+          "unavailability": "",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": ""
+        },
+        "16:30": {
+          "availability": "available",
+          "unavailability": "",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": ""
+        },
+        "17:00": {
+          "availability": "unavailable",
+          "unavailability": "End of day",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Personal time"
+        },
+        "17:30": {
+          "availability": "unavailable",
+          "unavailability": "End of day",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Personal time"
+        }
+      }
+    },
+    "3": {
+      "teacherId": "3",
+      "teacherName": "Ms. Emily Rodriguez",
+      "schedule": {
+        "08:00": {
+          "availability": "unavailable",
+          "unavailability": "Maternity leave",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Maternity leave"
+        },
+        "08:30": {
+          "availability": "unavailable",
+          "unavailability": "Maternity leave",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Maternity leave"
+        },
+        "09:00": {
+          "availability": "unavailable",
+          "unavailability": "Maternity leave",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Maternity leave"
+        },
+        "09:30": {
+          "availability": "unavailable",
+          "unavailability": "Maternity leave",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Maternity leave"
+        },
+        "10:00": {
+          "availability": "unavailable",
+          "unavailability": "Maternity leave",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Maternity leave"
+        },
+        "10:30": {
+          "availability": "unavailable",
+          "unavailability": "Maternity leave",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Maternity leave"
+        },
+        "11:00": {
+          "availability": "unavailable",
+          "unavailability": "Maternity leave",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Maternity leave"
+        },
+        "11:30": {
+          "availability": "unavailable",
+          "unavailability": "Maternity leave",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Maternity leave"
+        },
+        "12:00": {
+          "availability": "unavailable",
+          "unavailability": "Maternity leave",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Maternity leave"
+        },
+        "12:30": {
+          "availability": "unavailable",
+          "unavailability": "Maternity leave",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Maternity leave"
+        },
+        "13:00": {
+          "availability": "unavailable",
+          "unavailability": "Maternity leave",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Maternity leave"
+        },
+        "13:30": {
+          "availability": "unavailable",
+          "unavailability": "Maternity leave",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Maternity leave"
+        },
+        "14:00": {
+          "availability": "unavailable",
+          "unavailability": "Maternity leave",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Maternity leave"
+        },
+        "14:30": {
+          "availability": "unavailable",
+          "unavailability": "Maternity leave",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Maternity leave"
+        },
+        "15:00": {
+          "availability": "unavailable",
+          "unavailability": "Maternity leave",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Maternity leave"
+        },
+        "15:30": {
+          "availability": "unavailable",
+          "unavailability": "Maternity leave",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Maternity leave"
+        },
+        "16:00": {
+          "availability": "unavailable",
+          "unavailability": "Maternity leave",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Maternity leave"
+        },
+        "16:30": {
+          "availability": "unavailable",
+          "unavailability": "Maternity leave",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Maternity leave"
+        },
+        "17:00": {
+          "availability": "unavailable",
+          "unavailability": "Maternity leave",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Maternity leave"
+        },
+        "17:30": {
+          "availability": "unavailable",
+          "unavailability": "Maternity leave",
+          "scheduled_lessons": "",
+          "unscheduled_lessons": "",
+          "meetings": "",
+          "break_time": "",
+          "office_hours": "",
+          "comments": "Maternity leave"
+        }
+      }
+    }
+  }
+}
